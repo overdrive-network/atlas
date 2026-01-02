@@ -406,6 +406,10 @@ def insights_page():
             if not metrics:
                 st.error("Failed to fetch metrics. Please try again.")
                 return
+        except Exception as e:
+            logger.error(f"Error fetching metrics: {str(e)}")
+            st.error(f"Error fetching data: {str(e)}")
+            return
     
     # Generate insights
     with st.spinner("🧠 Analyzing your health data with AI..."):
