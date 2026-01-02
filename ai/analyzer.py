@@ -5,6 +5,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# AI Model Configuration
+DEFAULT_AI_MODEL = "gpt-3.5-turbo"
+
 
 class HealthAnalyzer:
     """Analyze health metrics using AI"""
@@ -34,7 +37,7 @@ class HealthAnalyzer:
         try:
             prompt = self._create_today_prompt(metrics)
             response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=DEFAULT_AI_MODEL,
                 messages=[
                     {"role": "system", "content": "You are a health and fitness expert providing personalized insights based on Garmin health data. Be encouraging, specific, and actionable."},
                     {"role": "user", "content": prompt}
@@ -63,7 +66,7 @@ class HealthAnalyzer:
         try:
             prompt = self._create_yesterday_prompt(metrics)
             response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=DEFAULT_AI_MODEL,
                 messages=[
                     {"role": "system", "content": "You are a health and fitness expert reviewing yesterday's performance. Provide constructive feedback and suggestions for improvement."},
                     {"role": "user", "content": prompt}
@@ -92,7 +95,7 @@ class HealthAnalyzer:
         try:
             prompt = self._create_monthly_prompt(metrics)
             response = self.client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=DEFAULT_AI_MODEL,
                 messages=[
                     {"role": "system", "content": "You are a health and fitness expert analyzing monthly trends. Identify patterns, improvements, and areas needing attention."},
                     {"role": "user", "content": prompt}

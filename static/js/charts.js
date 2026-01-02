@@ -1,6 +1,9 @@
 // Chart.js configurations and data loading
 let metricsData = null;
 
+// Constants
+const NOT_AVAILABLE = 'N/A';
+
 // Load metrics on page load
 window.addEventListener('DOMContentLoaded', () => {
     loadMetrics();
@@ -44,9 +47,9 @@ function updateTodayStats(today) {
     document.getElementById('steps-today').textContent = steps.toLocaleString();
 
     // Update heart rate
-    const heartRate = today.heart_rate?.restingHeartRate || 'N/A';
+    const heartRate = today.heart_rate?.restingHeartRate || NOT_AVAILABLE;
     document.getElementById('heart-rate-today').textContent = 
-        heartRate !== 'N/A' ? heartRate + ' bpm' : heartRate;
+        heartRate !== NOT_AVAILABLE ? heartRate + ' bpm' : heartRate;
 
     // Update sleep
     const sleepHours = today.sleep?.total_hours || 0;

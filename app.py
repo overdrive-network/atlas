@@ -46,6 +46,8 @@ def login():
         if client:
             session['garmin_authenticated'] = True
             session['garmin_email'] = email
+            # Note: In production, use OAuth tokens instead of storing credentials
+            # For demo purposes with Garmin Connect, we need to re-authenticate per session
             session['garmin_password'] = password
             logger.info(f"User logged in: {email}")
             return redirect(url_for('index'))
