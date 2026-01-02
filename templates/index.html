@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Garmin Health{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <h2>Your Health Dashboard</h2>
+        <p>Real-time health metrics from your Garmin device</p>
+    </div>
+
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading your health data...</p>
+    </div>
+
+    <div id="dashboard-content" style="display: none;">
+        <!-- Today's Summary Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🚶</div>
+                <div class="stat-info">
+                    <h3>Steps</h3>
+                    <p class="stat-value" id="steps-today">-</p>
+                    <span class="stat-label">Today</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">❤️</div>
+                <div class="stat-info">
+                    <h3>Heart Rate</h3>
+                    <p class="stat-value" id="heart-rate-today">-</p>
+                    <span class="stat-label">Resting BPM</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">😴</div>
+                <div class="stat-info">
+                    <h3>Sleep</h3>
+                    <p class="stat-value" id="sleep-today">-</p>
+                    <span class="stat-label">Hours</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-info">
+                    <h3>Calories</h3>
+                    <p class="stat-value" id="calories-today">-</p>
+                    <span class="stat-label">Burned</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3>Weekly Steps Trend</h3>
+                <canvas id="stepsChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3>Weekly Sleep Pattern</h3>
+                <canvas id="sleepChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3>Weekly Distance</h3>
+                <canvas id="distanceChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3>Weekly Calories Burned</h3>
+                <canvas id="caloriesChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="error-message" class="alert alert-error" style="display: none;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

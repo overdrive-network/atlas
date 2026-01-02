@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}AI Insights - Garmin Health{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="insights-header">
+        <h2>🤖 AI-Powered Health Insights</h2>
+        <p>Personalized analysis of your health data</p>
+    </div>
+
+    <div id="insights-loading" class="loading">
+        <div class="spinner"></div>
+        <p>Generating AI insights...</p>
+    </div>
+
+    <div id="insights-content" style="display: none;">
+        <!-- Today's Insights -->
+        <div class="insight-section">
+            <div class="insight-header">
+                <h3>📅 Today's Analysis</h3>
+            </div>
+            <div class="insight-card">
+                <div class="insight-content" id="insight-today">
+                    Loading insights...
+                </div>
+            </div>
+        </div>
+
+        <!-- Yesterday's Insights -->
+        <div class="insight-section">
+            <div class="insight-header">
+                <h3>⏮️ Yesterday's Review</h3>
+            </div>
+            <div class="insight-card">
+                <div class="insight-content" id="insight-yesterday">
+                    Loading insights...
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Insights -->
+        <div class="insight-section">
+            <div class="insight-header">
+                <h3>📊 Monthly Trends</h3>
+            </div>
+            <div class="insight-card">
+                <div class="insight-content" id="insight-month">
+                    Loading insights...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="insights-error" class="alert alert-error" style="display: none;"></div>
+
+    <div class="insights-actions">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Dashboard</a>
+        <button onclick="refreshInsights()" class="btn btn-primary">Refresh Insights</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Load insights on page load
+    window.addEventListener('DOMContentLoaded', loadInsights);
+
+    function loadInsights() {
+        document.getElementById('insights-loading').style.display = 'block';
+        document.getElementById('insights-content').style.display = 'none';
+        document.getElementById('insights-error').style.display = 'none';
+
+        fetch('/api/insights')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch insights');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('insights-loading').style.display = 'none';
+                document.getElementById('insights-content').style.display = 'block';
+
+                // Display insights with markdown-style formatting
+                if (data.today) {
+                    document.getElementById('insight-today').innerHTML = formatInsight(data.today);
+                }
+                if (data.yesterday) {
+                    document.getElementById('insight-yesterday').innerHTML = formatInsight(data.yesterday);
+                }
+                if (data.month) {
+                    document.getElementById('insight-month').innerHTML = formatInsight(data.month);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading insights:', error);
+                document.getElementById('insights-loading').style.display = 'none';
+                document.getElementById('insights-error').style.display = 'block';
+                document.getElementById('insights-error').textContent = 'Failed to load insights: ' + error.message;
+            });
+    }
+
+    function formatInsight(text) {
+        // Basic markdown-style formatting
+        return text
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>')
+            .replace(/(\d+\.\s)/g, '<br>$1');
+    }
+
+    function refreshInsights() {
+        loadInsights();
+    }
+</script>
+{% endblock %}
