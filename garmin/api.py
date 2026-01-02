@@ -1,6 +1,7 @@
 """Garmin Connect data fetching module"""
 from datetime import datetime, timedelta
 import logging
+import streamlit as st
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +91,8 @@ class GarminAPI:
             logger.error(f"Error fetching monthly metrics: {str(e)}")
             return []
     
-    def get_all_metrics(self):
+    @st.cache_data(ttl=300)  # Cache for 5 minutes
+    def get_all_metrics(_self):
         """
         Fetch comprehensive health metrics for today, week, and month
         
@@ -98,9 +100,9 @@ class GarminAPI:
             Dictionary with all timeframe metrics
         """
         return {
-            'today': self.get_today_metrics(),
-            'week': self.get_weekly_metrics(),
-            'month': self.get_monthly_metrics()
+            'today': _self.get_today_metrics(),
+            'week': _self.get_weekly_metrics(),
+            'month': _self.get_monthly_metrics()
         }
     
     def _get_daily_data(self, date):

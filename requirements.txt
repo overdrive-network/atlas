@@ -1,6 +1,7 @@
-Flask==3.0.0
+streamlit==1.29.0
 garminconnect==0.2.36
 openai==1.6.1
 python-dotenv==1.0.0
 requests==2.31.0
-Werkzeug==3.0.1
+plotly==5.18.0
+pandas==2.1.4

@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo  Garmin Health Web App Launcher
+echo  Garmin Health Dashboard (Streamlit)
 echo ========================================
 echo.
 
@@ -43,17 +43,14 @@ if not exist ".env" (
     pause
 )
 
-REM Start Flask application
+REM Start Streamlit application
 echo.
-echo Starting Garmin Health Web App...
-echo The app will be available at: http://localhost:5000
+echo Starting Garmin Health Dashboard...
+echo The app will open in your browser automatically.
 echo.
-echo Opening browser...
-timeout /t 2 /nobreak >nul
-start http://localhost:5000
 
-REM Run the Flask app
-python app.py
+REM Run the Streamlit app (Streamlit opens browser automatically)
+streamlit run app.py
 
 REM If we reach here, the app has stopped
 echo.
